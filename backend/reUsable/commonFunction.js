@@ -1,0 +1,1 @@
+// Common function which is not related to application(Not depends on application database)

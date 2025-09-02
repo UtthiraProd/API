@@ -1,0 +1,13 @@
+{
+    "createBrokerFieldLengthValidation":{
+        "name":50,
+        "phoneNumber":10,
+        "description":100,
+        "address1":50,
+        "address2":50,
+        "district":50,
+        "state":50,
+        "country":50,
+        "pincode":10
+    }
+}
