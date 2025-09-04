@@ -6,14 +6,14 @@ const { upgradePlan, getPublicUserPlans, PUBalanceQuota, AdditionalPlan,
         getAllPUplans, activePlan,viewplan,viewplanActive} = require("../../controllers/publicUser/PUPlanController")
 const { protect } = require('../../middleware/authMiddleware')
 
-router.route('/upgradePlan').post(protect,levelOneRateLimit, upgradePlan)
-router.route('/getPublicUserPlans').post(protect,levelTwoRateLimit, getPublicUserPlans)
-router.route('/PUBalanceQuota').post(protect,levelThreeRateLimit, PUBalanceQuota)
-router.route('/AdditionalPlan').post(protect,levelOneRateLimit,AdditionalPlan)
-router.route('/getAllPUplans').post(protect,levelTwoRateLimit,getAllPUplans)
-router.route('/activePlan').post(protect,levelTwoRateLimit,activePlan)
-router.route('/viewplan').post(protect,levelTwoRateLimit,viewplan)
-router.route('/viewplanActive').post(protect,levelTwoRateLimit,viewplanActive)
+router.route('/upgradePlan').post(protect, upgradePlan)
+router.route('/getPublicUserPlans').post(protect, getPublicUserPlans)
+router.route('/PUBalanceQuota').post(protect, PUBalanceQuota)
+router.route('/AdditionalPlan').post(protect,AdditionalPlan)
+router.route('/getAllPUplans').post(protect,getAllPUplans)
+router.route('/activePlan').post(protect,activePlan)
+router.route('/viewplan').post(protect,viewplan)
+router.route('/viewplanActive').post(protect,viewplanActive)
 
 // router.get('/getAllPUplans',getAllPUplans)
 
