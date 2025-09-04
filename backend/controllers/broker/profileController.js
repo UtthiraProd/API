@@ -953,29 +953,56 @@ const setProfilePhoto = asyncHandler(async (req, res) => {
             throw new Error('profile detail not found')
         }
 
-        for (const imagenameFromRequest of images) {
-            await MarriageProfile.findByIdAndUpdate(profileId, {
-                $pull: {
-                    imageUrls: {
-                        name: imagenameFromRequest.name
-                    }
-                }
-            });
+        const imageObj = images?.[0]
 
-            // Add the image with the isProfile flag
-            const updateObject = {
-                name: imagenameFromRequest.name, // Use only the image name as a string
-                isProfile: imagenameFromRequest.isProfile || false // Set the isProfile value properly
-            };
+        console.log(imageObj)
 
-            await MarriageProfile.findByIdAndUpdate(profileId, {
-                $push: {
-                    imageUrls: updateObject // Push the correctly formatted object
-                }
-            });
+        if(!imageObj || imageObj.imageName === null){
+             res.status(404)
+            throw new error("No image specified")
         }
 
+        let selectedName
+
+        if(typeof imageObj.imageName === 'number'){
+            selectedName = _marriageProfileDetail.imageUrls?.[imageObj.imageName]?.name || null
+        }
+        else{
+            selectedName = String(imageObj.imageName)
+        }
+
+        if(!selectedName){
+            res.status(404)
+            throw new error("Selected image not found")
+        }
+
+        _marriageProfileDetail.imageUrls.forEach(img => {img.isProfile = img.name === selectedName})
+
+        await _marriageProfileDetail.save()
+
         return res.send({ isSuccess: true, message: "Profile photo selected successfully" })
+
+        // for (const imagenameFromRequest of images) {
+        //     await MarriageProfile.findByIdAndUpdate(profileId, {
+        //         $pull: {
+        //             imageUrls: {
+        //                 name: imagenameFromRequest.name
+        //             }
+        //         }
+        //     });
+
+        //     // Add the image with the isProfile flag
+        //     const updateObject = {
+        //         name: imagenameFromRequest.name, // Use only the image name as a string
+        //         isProfile: imagenameFromRequest.isProfile || false // Set the isProfile value properly
+        //     };
+
+        //     await MarriageProfile.findByIdAndUpdate(profileId, {
+        //         $push: {
+        //             imageUrls: updateObject // Push the correctly formatted object
+        //         }
+        //     });
+        // }
     }
     catch (err) {
         errorfunction.errorHandler(err, req, res)

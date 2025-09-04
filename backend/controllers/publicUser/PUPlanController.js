@@ -70,7 +70,7 @@ const upgradePlan = asyncHandler(async (req, res) => {
             return res.status(200).json({ isSuccess: false, message: 'The plan already exists for this profile.' });
         }
 
-          const payment = razorPayment.create({
+          const payment = await razorPayment.create({
                     planId:planID,
                     userId:user._id,
                     isPayment:"success",
@@ -81,11 +81,7 @@ const upgradePlan = asyncHandler(async (req, res) => {
                     razorpaySignature:razorpay_signature
                 })
         
-                if(payment){
-                    res.status(200).json({isSuccess:true})
-                }
-        
-                else if(payment.isPayment !== "success"){
+               if(!payment){
                     return res.status(200).json({isSuccess:false})
                 }
 
@@ -364,7 +360,7 @@ const AdditionalPlan = asyncHandler(async(req,res) => {
             return res.status(200).json({ isSuccess: false, message: 'The plan already exists for this profile.' });
         }
 
-                const payment = razorPayment.create({
+                const payment = await razorPayment.create({
                 planId:planID,
                 userId:user._id,
                 isPayment:"success",
@@ -375,11 +371,7 @@ const AdditionalPlan = asyncHandler(async(req,res) => {
                 razorpaySignature:razorpay_signature
             })
     
-            if(payment){
-                res.status(200).json({isSuccess:true})
-            }
-    
-            else if(payment.isPayment !== "success"){
+           if(!payment){
                 return res.status(200).json({isSuccess:false})
             }
 
