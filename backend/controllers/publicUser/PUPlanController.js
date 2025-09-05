@@ -215,10 +215,22 @@ const getPublicUserPlans = asyncHandler(async (req, res) => {
             // _id: { $ne: _plan }
         })
 
-        if (publicUserPlan) {
-            return res.send(publicUserPlan);
-        }
-    }
+        const now = new Date(); // current time
+
+       const currentPlan = await PlanSchedule.aggregate([
+       { $match: { profileID: plan._id } },
+       { $unwind: "$planSchedule" },
+       {$match: {"planSchedule.expiryDate": { $gte: now }}},
+       {$project: {planID: "$planSchedule.planID"}}
+]);
+
+      const planIDs = currentPlan.map(item => item.planID);
+console.log("mani",planIDs)
+        // if (publicUserPlan) {
+        //     return res.send(publicUserPlan);
+        // }
+         res.status(200).json({publicUserPlan:publicUserPlan,planIDs:planIDs});
+    }
     catch (err) {
         errorfunction.errorHandler(err, req, res)
     }
