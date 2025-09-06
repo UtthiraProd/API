@@ -9,7 +9,6 @@ const PUMarriageProfile = require('../../models/PUMarriageProfileModel')
 const { errorfunction, fieldValidationfunction } = require('../commonController')
 const planScheduleModel = require('../../models/planScheduleModel')
 const razorPayment = require("../../models/razorPaymentModel")
-
 const userRole = "User"
 
 
